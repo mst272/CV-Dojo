@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-
+# The Focal loss (Lin et al., 2020) can also be considered as a variation of the BCE.
 # Binary Segmentation loss
 class FocalLoss(nn.Module):
     """
