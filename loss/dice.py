@@ -2,11 +2,12 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 
+
 # Segmentation
 class DiceLoss(nn.Module):
     def __init__(self):
         super().__init__()
-        self.eps =1e-7
+        self.eps = 1e-7
 
     def forward(self, logits, true):
         """
@@ -28,7 +29,7 @@ class DiceLoss(nn.Module):
             neg_prob = 1 - pos_prob
             probas = torch.cat([pos_prob, neg_prob], dim=1)
         else:
-            true_1_hot = torch.eye(num_classes)[true.squeeze(1).int()] # eye 这个函数主要是为了生成对角线全1，其余部分全0的二维数组
+            true_1_hot = torch.eye(num_classes)[true.squeeze(1).int()]  # eye 这个函数主要是为了生成对角线全1，其余部分全0的二维数组
             true_1_hot = true_1_hot.permute(0, 3, 1, 2).float()  # [B,H,W,2] => [B,2,H,W]
             probas = F.softmax(logits, dim=1)
         true_1_hot = true_1_hot.type(logits.type())
